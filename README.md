@@ -1,3 +1,3 @@
-# Group creator!
+# Random  Group creator!
 
-## An API that you can add people and form groups, which are randomly chosen.
+## An API that you can add people and form random groups with them!
