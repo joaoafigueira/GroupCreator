@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen(options =>
         Description = "API for access to Group Creator resources"
     });
 
-    //options.EnableAnnotations();
+    options.EnableAnnotations();
 });
 
 var app = builder.Build();
