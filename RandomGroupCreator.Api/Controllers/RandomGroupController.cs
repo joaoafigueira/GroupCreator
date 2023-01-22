@@ -1,9 +1,9 @@
-﻿using GroupCreator.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RandomGroupCreator.Api.Dto;
+using RandomGroupCreator.Domain.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace GroupCreator.Api.Controllers
+namespace RandomGroupCreator.Api.Controllers
 {
     [Route("/api[controller]")]
     [ApiController]
@@ -25,7 +25,7 @@ namespace GroupCreator.Api.Controllers
             [FromBody] List<PersonDto> people
             )
         {
-            if(people== null) throw new ArgumentNullException(nameof(people));
+            if (people == null) throw new ArgumentNullException(nameof(people));
 
 
             return Ok();

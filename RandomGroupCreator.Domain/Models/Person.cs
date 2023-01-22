@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GroupCreator.Domain.Models
+namespace RandomGroupCreator.Domain.Models
 {
     public class Person
     {
