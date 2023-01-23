@@ -1,8 +1,11 @@
 using Microsoft.OpenApi.Models;
+using RandomGroupCreator.Domain.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+builder.Services.AddDomain();
 
 builder.Services.AddSwaggerGen(options =>
 {

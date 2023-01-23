@@ -1,34 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RandomGroupCreator.Api.Dto;
-using RandomGroupCreator.Domain.Models;
+using RandomGroupCreator.Domain.Dto;
+using RandomGroupCreator.Domain.Interfaces.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace RandomGroupCreator.Api.Controllers
 {
-    [Route("/api[controller]")]
+    [Route("/api/random-groups")]
     [ApiController]
     [SwaggerTag("Add people and form random groups with them!")]
     public class RandomGroupController : ControllerBase
     {
+        private readonly IRandomGroupService _randomGroupService;
+
+        public RandomGroupController(IRandomGroupService randomGroupService)
+        {
+            _randomGroupService= randomGroupService;
+        }
+
         [HttpPost]
-        [Route("~/api/random-groups")]
         [SwaggerOperation(
             Summary = "Create Random groups",
             Description = "Create random groups from a list of people",
             OperationId = "CreateGroups"
             )]
         [SwaggerResponse(200, "Random Group Created.", typeof(PersonDto))]
-        [SwaggerResponse(400, "Data is invalid!")]
-        public async Task<IActionResult> CreateGroups(
+        public async Task<IActionResult> CreateRandomGroup(
             [FromQuery, SwaggerParameter("Filter By Person in each group", Required = false)] int quantityOfGroup,
             [FromQuery, SwaggerParameter("Filter By Number of Person in each group", Required = false)] int numberOfPersonInEachGroup,
             [FromBody] List<PersonDto> people
             )
         {
-            if (people == null) throw new ArgumentNullException(nameof(people));
+            var shuffledPeople = _randomGroupService.ShufflePeople(people);
 
-
-            return Ok();
+            return Ok(shuffledPeople);
         }
     }
 }
