@@ -6,14 +6,16 @@ builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen(options =>
 {
+    options.CustomSchemaIds(type => type.ToString());
+
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Group Creator API",
-        Description = "API for access to Group Creator resources"
+        Title = "Random Group Creator API",
+        Description = "API for access to Random Group Creator resources"
     });
 
-    //options.EnableAnnotations();
+    options.EnableAnnotations();
 });
 
 var app = builder.Build();
@@ -36,7 +38,7 @@ app.UseSwagger();
 // specifying the Swagger JSON endpoint.
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Group Creator API");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Random Group Creator API");
 });
 
 app.Run();
