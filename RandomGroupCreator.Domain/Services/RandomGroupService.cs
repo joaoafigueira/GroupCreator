@@ -14,15 +14,17 @@ namespace RandomGroupCreator.Domain.Services
 
         public List<PersonDto> ShufflePeople(List<PersonDto> people)
         {
-            var shuffledPeople = people.OrderBy(p => _randomNumber.Next()).ToList();
+            for (int i = people.Count - 1; i > 0; --i)
+            {
+                var randomNumber = _randomNumber.Next(i + 1); 
 
-            return shuffledPeople;
+                var lastPeople = people[i];
+                people[i] = people[randomNumber];
+                people[randomNumber] = lastPeople;
+            }
+
+            return people;
         }
-
-        //TODO: Implement our own Shuffle algorithm
-
-
-
 
     }
 }
