@@ -33,10 +33,10 @@ namespace RandomGroupCreator.Domain.Services
             return personGroupList;
         }
 
-        public static List<List<PersonDto>> PartitionPeople(List<PersonDto> people, int chunckSize)
+        public static List<List<PersonDto>> PartitionPeople(List<PersonDto> people, int numberOfPersonInEachGroup )
         {
             return people.Select((x, i) => new { Index = i, Value = x })
-                   .GroupBy(x => x.Index / chunckSize)
+                   .GroupBy(x => x.Index / numberOfPersonInEachGroup)
                    .Select(x => x.Select(v => v.Value).ToList())
                    .ToList();
         }
