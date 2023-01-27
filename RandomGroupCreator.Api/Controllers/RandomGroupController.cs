@@ -22,17 +22,17 @@ namespace RandomGroupCreator.Api.Controllers
             Summary = "Create Random groups",
             Description = "Create random groups from a list of people",
             OperationId = "CreateGroups"
-            )]
-        [SwaggerResponse(200, "Random Group Created.", typeof(PersonDto))]
+            )] 
+        [SwaggerResponse(200, "Random Group Created.", typeof(PersonGroupDto))]
         public async Task<IActionResult> CreateRandomGroup(
             [FromQuery, SwaggerParameter("Filter By Person in each group", Required = false)] int quantityOfGroup,
             [FromQuery, SwaggerParameter("Filter By Number of Person in each group", Required = false)] int numberOfPersonInEachGroup,
             [FromBody] List<PersonDto> people
             )
         {
-            var shuffledPeople = _randomGroupService.ShufflePeople(people);
+            var randomGroup = _randomGroupService.GenerateRandomGroups(people, numberOfPersonInEachGroup); //TODO: Add quantity of group
 
-            return Ok(shuffledPeople);
+            return Ok(randomGroup);
         }
     }
 }

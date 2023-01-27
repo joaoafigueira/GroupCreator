@@ -12,11 +12,40 @@ namespace RandomGroupCreator.Domain.Services
     {
         private static readonly Random _randomNumber = new Random();
 
+        public List<PersonGroupDto> GenerateRandomGroups(List<PersonDto> people, int numberOfPersonInEachGroup)
+        {
+            var shuffledPeople = ShufflePeople(people);
+
+            var partitionPeople = PartitionPeople(shuffledPeople, numberOfPersonInEachGroup);
+
+            var personGroupList = new List<PersonGroupDto>();
+
+            foreach (var partition in partitionPeople)
+            {
+                var personGroup = new PersonGroupDto()
+                {
+                    PersonGroups = partition
+                };
+
+                personGroupList.Add(personGroup);
+            }
+
+            return personGroupList;
+        }
+
+        public static List<List<PersonDto>> PartitionPeople(List<PersonDto> people, int chunckSize)
+        {
+            return people.Select((x, i) => new { Index = i, Value = x })
+                   .GroupBy(x => x.Index / chunckSize)
+                   .Select(x => x.Select(v => v.Value).ToList())
+                   .ToList();
+        }
+
         public List<PersonDto> ShufflePeople(List<PersonDto> people)
         {
             for (int i = people.Count - 1; i > 0; --i)
             {
-                var randomNumber = _randomNumber.Next(i + 1); 
+                var randomNumber = _randomNumber.Next(i + 1);
 
                 var lastPeople = people[i];
                 people[i] = people[randomNumber];
