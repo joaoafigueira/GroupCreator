@@ -12,28 +12,60 @@ namespace RandomGroupCreator.Domain.Services
     {
         private static readonly Random _randomNumber = new Random();
 
-        public List<PersonGroupDto> GenerateRandomGroups(List<PersonDto> people, int numberOfPersonInEachGroup)
+        //public List<PersonGroupDto> GenerateRandomGroup(List<PersonDto> people, int numberOfPersonInEachGroup, int quantityOfGroup)
+        //{
+        //    var shuffledPeople = ShufflePeople(people);
+
+        //    if (quantityOfGroup > 0)
+        //    {
+        //        var personGroupsList = AddPersonPerQuantityOfGroup(shuffledPeople, quantityOfGroup);
+
+        //        return personGroupsList;
+        //    }
+
+        //    var partitionPeople = PartitionPeople(shuffledPeople, numberOfPersonInEachGroup);
+
+        //    var personGroupList = new List<PersonGroupDto>();
+
+        //    foreach (var partition in partitionPeople)
+        //    {
+        //        var personGroup = new PersonGroupDto()
+        //        {
+        //            PersonGroups = partition
+        //        };
+
+        //        personGroupList.Add(personGroup);
+        //    }
+
+        //    return personGroupList;
+        //}
+
+        public List<GroupDto> AddPersonPerQuantityOfGroup(List<PersonDto> shuffledPeople, int quantityOfGroup)
         {
-            var shuffledPeople = ShufflePeople(people);
+            var shuffledPeopleCount = shuffledPeople.Count;
 
-            var partitionPeople = PartitionPeople(shuffledPeople, numberOfPersonInEachGroup);
+            var groupList = new List<GroupDto>();
 
-            var personGroupList = new List<PersonGroupDto>();
-
-            foreach (var partition in partitionPeople)
+            if (shuffledPeopleCount == quantityOfGroup)
             {
-                var personGroup = new PersonGroupDto()
+                for (int i = 0; i <= shuffledPeopleCount - 1; i++)
                 {
-                    PersonGroups = partition
-                };
+                    var person = shuffledPeople[i];
 
-                personGroupList.Add(personGroup);
+                    var group = new GroupDto()
+                    {
+                        Group = person
+                    };
+
+                    groupList.Add(group);
+                }
             }
 
-            return personGroupList;
+            return groupList;
         }
 
-        public static List<List<PersonDto>> PartitionPeople(List<PersonDto> people, int numberOfPersonInEachGroup )
+
+        public static List<List<PersonDto>> PartitionPeople(List<PersonDto> people, int numberOfPersonInEachGroup)
         {
             return people.Select((x, i) => new { Index = i, Value = x })
                    .GroupBy(x => x.Index / numberOfPersonInEachGroup)

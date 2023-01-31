@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RandomGroupCreator.Domain.Dto
 {
-    public class PersonGroupDto
+    public class GroupDto
     {
-       public List<PersonDto> PersonGroups { get; set; }
+        public PersonDto Group { get; set; }
     }
 }

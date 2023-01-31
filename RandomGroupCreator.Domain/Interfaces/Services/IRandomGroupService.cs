@@ -6,6 +6,8 @@ namespace RandomGroupCreator.Domain.Interfaces.Services
     {
         List<PersonDto> ShufflePeople(List<PersonDto> people);
 
-        List<PersonGroupDto> GenerateRandomGroups(List<PersonDto> persons, int numberOfPersonInEachGroup);
+        //List<PersonGroupDto> GenerateRandomGroup(List<PersonDto> people, int numberOfPersonInEachGroup, int quantityOfGroup);
+
+        List<GroupDto> AddPersonPerQuantityOfGroup(List<PersonDto> shuffledPeople, int quantityOfGroup);
     }
 }

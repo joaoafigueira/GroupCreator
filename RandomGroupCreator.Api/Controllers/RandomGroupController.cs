@@ -24,13 +24,12 @@ namespace RandomGroupCreator.Api.Controllers
             OperationId = "CreateGroups"
             )] 
         [SwaggerResponse(200, "Random Group Created.", typeof(PersonGroupDto))]
-        public async Task<IActionResult> CreateRandomGroup(
-            [FromQuery, SwaggerParameter("Filter By Person in each group", Required = false)] int quantityOfGroup,
-            [FromQuery, SwaggerParameter("Filter By Number of Person in each group", Required = false)] int numberOfPersonInEachGroup,
-            [FromBody] List<PersonDto> people
-            )
+        public IActionResult CreateRandomGroup(
+            [FromBody] List<PersonDto> people,
+            [FromQuery, SwaggerParameter("Filter By Number of groups", Required = false)] int quantityOfGroup = 0,
+            [FromQuery, SwaggerParameter("Filter By Number of Person in each group", Required = false)] int numberOfPersonInEachGroup = 0)
         {
-            var randomGroup = _randomGroupService.GenerateRandomGroups(people, numberOfPersonInEachGroup); //TODO: Add quantity of group
+            var randomGroup =  _randomGroupService.AddPersonPerQuantityOfGroup(people, quantityOfGroup); //TODO: Add quantity of group, change methods modifiers and refactor code.
 
             return Ok(randomGroup);
         }
