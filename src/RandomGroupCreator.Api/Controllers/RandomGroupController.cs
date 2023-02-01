@@ -26,9 +26,9 @@ namespace RandomGroupCreator.Api.Controllers
             )]
         [SwaggerResponse(200, "Random Group Created.", typeof(PersonGroupDto))]
         public IActionResult CreateRandomGroup(
-            [FromBody] List<PersonDto> people, 
-            [FromQuery] int quantity, 
-            [FromQuery] GroupType groupType)
+            [FromBody,  SwaggerParameter(Required = true)] List<PersonDto> people, 
+            [FromQuery, SwaggerParameter( Required = true)] int quantity, 
+            [FromQuery, SwaggerParameter(Required = true)]  GroupType groupType)
         {
             try
             {
@@ -38,7 +38,6 @@ namespace RandomGroupCreator.Api.Controllers
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
         }
