@@ -28,7 +28,7 @@ namespace RandomGroupCreator.Api.Controllers
         public IActionResult CreateRandomGroup(
             [FromBody,  SwaggerParameter(Required = true)] List<PersonDto> people, 
             [FromQuery, SwaggerParameter( Required = true)] int quantity, 
-            [FromQuery, SwaggerParameter(Required = true)]  GroupType groupType)
+            [FromQuery, SwaggerParameter("Pass 0 to filter for a number of group or 1 to filter for number of persons per each group", Required = true)]  GroupType groupType)
         {
             try
             {
