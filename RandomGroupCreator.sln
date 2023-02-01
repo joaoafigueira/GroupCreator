@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomGroupCreator.Api", "RandomGroupCreator.Api\RandomGroupCreator.Api.csproj", "{1692069F-6FEC-4763-9210-775E45ACD28D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomGroupCreator.Api", "src\RandomGroupCreator.Api\RandomGroupCreator.Api.csproj", "{1692069F-6FEC-4763-9210-775E45ACD28D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomGroupCreator.Domain", "RandomGroupCreator.Domain\RandomGroupCreator.Domain.csproj", "{015F8AE8-5809-49CF-9D2A-5A2CFF11F298}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomGroupCreator.Domain", "src\RandomGroupCreator.Domain\RandomGroupCreator.Domain.csproj", "{015F8AE8-5809-49CF-9D2A-5A2CFF11F298}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
