@@ -1,34 +1,46 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RandomGroupCreator.Api.Dto;
-using RandomGroupCreator.Domain.Models;
+using RandomGroupCreator.Domain.Dto;
+using RandomGroupCreator.Domain.Enums;
+using RandomGroupCreator.Domain.Interfaces.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace RandomGroupCreator.Api.Controllers
 {
-    [Route("/api[controller]")]
+    [Route("/api/random-groups")]
     [ApiController]
     [SwaggerTag("Add people and form random groups with them!")]
     public class RandomGroupController : ControllerBase
     {
+        private readonly IRandomGroupService _randomGroupService;
+
+        public RandomGroupController(IRandomGroupService randomGroupService)
+        {
+            _randomGroupService = randomGroupService;
+        }
+
         [HttpPost]
-        [Route("~/api/random-groups")]
         [SwaggerOperation(
             Summary = "Create Random groups",
             Description = "Create random groups from a list of people",
             OperationId = "CreateGroups"
             )]
-        [SwaggerResponse(200, "Random Group Created.", typeof(PersonDto))]
-        [SwaggerResponse(400, "Data is invalid!")]
-        public async Task<IActionResult> CreateGroups(
-            [FromQuery, SwaggerParameter("Filter By Person in each group", Required = false)] int quantityOfGroup,
-            [FromQuery, SwaggerParameter("Filter By Number of Person in each group", Required = false)] int numberOfPersonInEachGroup,
-            [FromBody] List<PersonDto> people
-            )
+        [SwaggerResponse(200, "Random Group Created.", typeof(PersonGroupDto))]
+        public IActionResult CreateRandomGroup(
+            [FromBody] List<PersonDto> people, 
+            [FromQuery] int quantity, 
+            [FromQuery] GroupType groupType)
         {
-            if (people == null) throw new ArgumentNullException(nameof(people));
+            try
+            {
+                var randomGroup = _randomGroupService.GenerateRandomGroup(people, quantity, groupType);
 
+                return Ok(randomGroup);
+            }
+            catch (Exception ex)
+            {
 
-            return Ok();
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

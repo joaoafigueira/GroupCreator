@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RandomGroupCreator.Api.Dto
+namespace RandomGroupCreator.Domain.Dto
 {
     public class PersonDto
     {
