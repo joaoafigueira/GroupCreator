@@ -1,4 +1,5 @@
 ﻿using RandomGroupCreator.Domain.Dto;
+using RandomGroupCreator.Domain.Enums;
 using RandomGroupCreator.Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
@@ -12,56 +13,69 @@ namespace RandomGroupCreator.Domain.Services
     {
         private static readonly Random _randomNumber = new Random();
 
-        //public List<PersonGroupDto> GenerateRandomGroup(List<PersonDto> people, int numberOfPersonInEachGroup, int quantityOfGroup)
-        //{
-        //    var shuffledPeople = ShufflePeople(people);
+        public List<PersonGroupDto> GenerateRandomGroup(List<PersonDto> people, int quantity, GroupType groupType)
+        {
+            var shuffledPeople = ShufflePeople(people);
 
-        //    if (quantityOfGroup > 0)
-        //    {
-        //        var personGroupsList = AddPersonPerQuantityOfGroup(shuffledPeople, quantityOfGroup);
+            var shuffledPeopleCount = shuffledPeople.Count;
 
-        //        return personGroupsList;
-        //    }
+            if (shuffledPeopleCount == quantity && groupType == GroupType.Group)
+            {
+                var personGroupPerGroup = AddPeoplePerGroup(shuffledPeople, quantity);
 
-        //    var partitionPeople = PartitionPeople(shuffledPeople, numberOfPersonInEachGroup);
+                return personGroupPerGroup;
+            }
 
-        //    var personGroupList = new List<PersonGroupDto>();
+            var personGroupPerQuantity = AddPeoplePerQuantity(shuffledPeople, quantity);
+           
+            return personGroupPerQuantity;
+        }
 
-        //    foreach (var partition in partitionPeople)
-        //    {
-        //        var personGroup = new PersonGroupDto()
-        //        {
-        //            PersonGroups = partition
-        //        };
 
-        //        personGroupList.Add(personGroup);
-        //    }
+        public List<PersonGroupDto> AddPeoplePerQuantity(List<PersonDto> shuffledPeople, int quantity)
+        {
+            var partitionPeople = PartitionPeople(shuffledPeople, quantity);
 
-        //    return personGroupList;
-        //}
+            var personGroupList = new List<PersonGroupDto>();
 
-        public List<GroupDto> AddPersonPerQuantityOfGroup(List<PersonDto> shuffledPeople, int quantityOfGroup)
+            foreach (var partition in partitionPeople)
+            {
+                var personGroup = new PersonGroupDto()
+                {
+                    Group = partition
+                };
+
+                personGroupList.Add(personGroup);
+            }
+
+            return personGroupList;
+        }
+
+
+        public List<PersonGroupDto> AddPeoplePerGroup(List<PersonDto> shuffledPeople, int quantity)
         {
             var shuffledPeopleCount = shuffledPeople.Count;
 
-            var groupList = new List<GroupDto>();
+            var personGroupList = new List<PersonGroupDto>();
 
-            if (shuffledPeopleCount == quantityOfGroup)
+            for (int i = 0; i <= shuffledPeopleCount - 1; i++)
             {
-                for (int i = 0; i <= shuffledPeopleCount - 1; i++)
+                var person = shuffledPeople[i];
+
+                var personList = new List<PersonDto>
                 {
-                    var person = shuffledPeople[i];
+                    person
+                };
 
-                    var group = new GroupDto()
-                    {
-                        Group = person
-                    };
+                var personGroup = new PersonGroupDto()
+                {
+                    Group = personList
+                };
 
-                    groupList.Add(group);
-                }
+                personGroupList.Add(personGroup);
             }
 
-            return groupList;
+            return personGroupList;
         }
 
 
@@ -72,6 +86,7 @@ namespace RandomGroupCreator.Domain.Services
                    .Select(x => x.Select(v => v.Value).ToList())
                    .ToList();
         }
+
 
         public List<PersonDto> ShufflePeople(List<PersonDto> people)
         {

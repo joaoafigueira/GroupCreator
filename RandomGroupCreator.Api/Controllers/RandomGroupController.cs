@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RandomGroupCreator.Domain.Dto;
+using RandomGroupCreator.Domain.Enums;
 using RandomGroupCreator.Domain.Interfaces.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -14,7 +15,7 @@ namespace RandomGroupCreator.Api.Controllers
 
         public RandomGroupController(IRandomGroupService randomGroupService)
         {
-            _randomGroupService= randomGroupService;
+            _randomGroupService = randomGroupService;
         }
 
         [HttpPost]
@@ -22,16 +23,24 @@ namespace RandomGroupCreator.Api.Controllers
             Summary = "Create Random groups",
             Description = "Create random groups from a list of people",
             OperationId = "CreateGroups"
-            )] 
+            )]
         [SwaggerResponse(200, "Random Group Created.", typeof(PersonGroupDto))]
         public IActionResult CreateRandomGroup(
-            [FromBody] List<PersonDto> people,
-            [FromQuery, SwaggerParameter("Filter By Number of groups", Required = false)] int quantityOfGroup = 0,
-            [FromQuery, SwaggerParameter("Filter By Number of Person in each group", Required = false)] int numberOfPersonInEachGroup = 0)
+            [FromBody] List<PersonDto> people, 
+            [FromQuery] int quantity, 
+            [FromQuery] GroupType groupType)
         {
-            var randomGroup =  _randomGroupService.AddPersonPerQuantityOfGroup(people, quantityOfGroup); //TODO: Add quantity of group, change methods modifiers and refactor code.
+            try
+            {
+                var randomGroup = _randomGroupService.GenerateRandomGroup(people, quantity, groupType);
 
-            return Ok(randomGroup);
+                return Ok(randomGroup);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

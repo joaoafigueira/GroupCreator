@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RandomGroupCreator.Domain.Dto
+namespace RandomGroupCreator.Domain.Enums
 {
-    public class GroupDto
+    public enum GroupType
     {
-        public PersonDto Group { get; set; }
+        Group,
+        People
     }
 }

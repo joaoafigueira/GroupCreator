@@ -1,4 +1,5 @@
 ﻿using RandomGroupCreator.Domain.Dto;
+using RandomGroupCreator.Domain.Enums;
 
 namespace RandomGroupCreator.Domain.Interfaces.Services
 {
@@ -6,8 +7,10 @@ namespace RandomGroupCreator.Domain.Interfaces.Services
     {
         List<PersonDto> ShufflePeople(List<PersonDto> people);
 
-        //List<PersonGroupDto> GenerateRandomGroup(List<PersonDto> people, int numberOfPersonInEachGroup, int quantityOfGroup);
+        List<PersonGroupDto> GenerateRandomGroup(List<PersonDto> people, int quantity, GroupType groupType);
 
-        List<GroupDto> AddPersonPerQuantityOfGroup(List<PersonDto> shuffledPeople, int quantityOfGroup);
+        List<PersonGroupDto> AddPeoplePerGroup(List<PersonDto> shuffledPeople, int quantity);
+
+        List<PersonGroupDto> AddPeoplePerQuantity(List<PersonDto> shuffledPeople, int quantity);
     }
 }
