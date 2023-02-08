@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RandomGroupCreator.Domain\RandomGroupCreator.Domain.csproj" />
+    <ProjectReference Include="..\RandomGroup.Domain\RandomGroup.Domain.csproj" />
+    <ProjectReference Include="..\RandomGroupCreator.Domain\RandomGroup.Api.Domain.csproj" />
   </ItemGroup>
 
 </Project>
