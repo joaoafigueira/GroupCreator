@@ -8,6 +8,12 @@ namespace RandomGroupCreator.Domain.Dto
 {
     public class PersonGroupDto
     {
-       public List<PersonDto> Group { get; set; }
+        public PersonGroupDto(List<PersonDto> group)
+        {
+            Group = group;
+        }
+
+        public List<PersonDto> Group { get; set; }
+
     }
 }

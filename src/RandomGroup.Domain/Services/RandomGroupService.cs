@@ -1,11 +1,6 @@
 ﻿using RandomGroupCreator.Domain.Dto;
 using RandomGroupCreator.Domain.Enums;
 using RandomGroupCreator.Domain.Interfaces.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RandomGroupCreator.Domain.Services
 {
@@ -15,71 +10,54 @@ namespace RandomGroupCreator.Domain.Services
 
         public List<PersonGroupDto> GenerateRandomGroup(List<PersonDto> people, int quantity, GroupType groupType)
         {
+            if (people.Count == 0 || quantity <= 0)
+            {
+                throw new ArgumentNullException("Paremeter can not be less or equal than zero.");
+            }
+
             var shuffledPeople = ShufflePeople(people);
 
-            var shuffledPeopleCount = shuffledPeople.Count;
+            var randomGroup = CreateGroup(shuffledPeople, groupType, quantity);
 
-            if (shuffledPeopleCount == quantity && groupType == GroupType.Group)
-            {
-                var personGroupPerGroup = AddPeoplePerGroup(shuffledPeople, quantity);
-
-                return personGroupPerGroup;
-            }
-
-            var personGroupPerQuantity = AddPeoplePerQuantity(shuffledPeople, quantity);
-           
-            return personGroupPerQuantity;
+            return randomGroup;
         }
 
 
-        public List<PersonGroupDto> AddPeoplePerQuantity(List<PersonDto> shuffledPeople, int quantity)
+        public List<PersonGroupDto> CreateGroup(List<PersonDto> shuffledPeople, GroupType groupType, int quantity)
         {
-            var partitionPeople = PartitionPeople(shuffledPeople, quantity);
+            if (groupType == GroupType.People)
+            {
+                var splitPeople = SplitPeople(shuffledPeople, quantity);
 
+                var personGroup = CreatePersonGroupList(splitPeople);
+
+                return personGroup;
+            }
+
+            return null;
+        }
+
+
+        public List<PersonGroupDto> CreatePersonGroupList(List<List<PersonDto>> splittedGroups)
+        {
             var personGroupList = new List<PersonGroupDto>();
 
-            foreach (var partition in partitionPeople)
+            foreach (var group in splittedGroups)
             {
-                var personGroup = new PersonGroupDto()
-                {
-                    Group = partition
-                };
+                var personGroup = new PersonGroupDto(group);
 
                 personGroupList.Add(personGroup);
             }
-
+         
             return personGroupList;
         }
 
+        //public static List<List<PersonDto>> PartionGroup(List<PersonDto> shuffledPeople, int quantity)
+        //{
 
-        public List<PersonGroupDto> AddPeoplePerGroup(List<PersonDto> shuffledPeople, int quantity)
-        {
-            var shuffledPeopleCount = shuffledPeople.Count;
+        //}
 
-            var personGroupList = new List<PersonGroupDto>();
-
-            for (int i = 0; i <= shuffledPeopleCount - 1; i++)
-            {
-                var person = shuffledPeople[i];
-
-                var personList = new List<PersonDto>
-                {
-                    person
-                };
-
-                var personGroup = new PersonGroupDto()
-                {
-                    Group = personList
-                };
-
-                personGroupList.Add(personGroup);
-            }
-
-            return personGroupList;
-        }
-
-
-        public static List<List<PersonDto>> PartitionPeople(List<PersonDto> people, int numberOfPersonInEachGroup)
+        public static List<List<PersonDto>> SplitPeople(List<PersonDto> people, int numberOfPersonInEachGroup)
         {
             return people.Select((x, i) => new { Index = i, Value = x })
                    .GroupBy(x => x.Index / numberOfPersonInEachGroup)
@@ -87,16 +65,15 @@ namespace RandomGroupCreator.Domain.Services
                    .ToList();
         }
 
-
         public List<PersonDto> ShufflePeople(List<PersonDto> people)
         {
             for (int i = people.Count - 1; i > 0; --i)
             {
-                var randomNumber = _randomNumber.Next(i + 1);
+                var randomIndex = _randomNumber.Next(i + 1);
 
                 var lastPeople = people[i];
-                people[i] = people[randomNumber];
-                people[randomNumber] = lastPeople;
+                people[i] = people[randomIndex];
+                people[randomIndex] = lastPeople;
             }
 
             return people;
