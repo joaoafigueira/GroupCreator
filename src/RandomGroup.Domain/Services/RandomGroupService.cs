@@ -34,7 +34,16 @@ namespace RandomGroupCreator.Domain.Services
                 return personGroup;
             }
 
-            return null;
+            if(groupType == GroupType.Group)
+            {
+                var splitGroup = PartionGroup(shuffledPeople, quantity);    
+
+                var personGroup = CreatePersonGroupList(splitGroup);
+
+                return personGroup;
+            }
+
+            return new List<PersonGroupDto>();
         }
 
 
@@ -52,10 +61,12 @@ namespace RandomGroupCreator.Domain.Services
             return personGroupList;
         }
 
-        //public static List<List<PersonDto>> PartionGroup(List<PersonDto> shuffledPeople, int quantity)
-        //{
+        public static List<List<PersonDto>> PartionGroup(List<PersonDto> shuffledPeople, int quantity)
+        {
+         
 
-        //}
+            return null;
+        }
 
         public static List<List<PersonDto>> SplitPeople(List<PersonDto> people, int numberOfPersonInEachGroup)
         {
